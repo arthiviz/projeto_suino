@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="pt-br" data-bs-theme="dark"> 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+</head>
+<body>
+
+    {% include "navbar.html" %}
+    <div>
+        <table class="table table-striped">
+            <tr>
+                <th>Id</th>
+                <th>Peso</th>
+                <th>Raça</th>
+                <th>Tag</th>
+                <th style="width: max-content;"><form class="d-flex justify-content-end" role="search">
+                        <input class="form-control me-2" type="search" placeholder="Pesquisar" aria-label="Search" style="width: auto;"/>
+                        <button class="btn btn-outline-success" type="submit">Pesquisar</button>
+                    </form>
+                </th>
+            </tr>
+            {% for suino in lista_suinos%}
+                <tr>
+                    <th>{{suino.id}}</th>
+                    <th>{{suino.peso_inicial}}</th>
+                    <th>{{suino.raca}}</th>
+                    <th>{{suino.tag_suino}}</th>
+                    <th></th>
+                </tr>
+            {%endfor%}
+        </table>
+    </div>
+    
+</body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+<script src="../static/scripts/scripts.js"></script>
+</html>
