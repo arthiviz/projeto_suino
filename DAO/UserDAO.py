@@ -30,8 +30,8 @@ def login_user(nome,senha):
     db = SessionLocal()
     try:
 
-        user = db.query(User).filter(nome == nome and senha == senha).first()
-        
+        user = db.query(User).filter(User.nome == nome, User.senha == senha).first()
+        print(f'usuario:{user.nome},senha:{user.senha}')
         if user:
             return True
         else:

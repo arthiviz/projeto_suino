@@ -22,17 +22,71 @@
                     </form>
                 </th>
             </tr>
+
+           
+
             {% for suino in lista_suinos%}
-                <tr>
+                <tr data-bs-toggle="modal" data-bs-target="#suinoModal" style="cursor: pointer;" data-id="{{suino.id}}" data-peso_inicial="{{suino.peso_inicial}}" data-raca="{{suino.raca}}" data-tag_suino="{{suino.tag_suino}}">
                     <th>{{suino.id}}</th>
-                    <th>{{suino.peso_inicial}}</th>
+                    <th>{{suino.peso_inicial}}Kg</th>
                     <th>{{suino.raca}}</th>
                     <th>{{suino.tag_suino}}</th>
                     <th></th>
                 </tr>
             {%endfor%}
-        </table>
+        </table>    
     </div>
+
+    <div class="modal fade modal-lg" id="suinoModal" tabindex="-1" aria-labelledby="suinoModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="suinoModalLabel">Informações Do Suino </h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            
+
+                            <div class="my-3 ms-4" id="div_grafico">
+                                
+                            </div>
+
+                            <table class="table table-striped">
+                                <tr>
+                                    <th>Peso</th>
+                                    <th class="d-flex justify-content-evenly">Data</th>
+                                </tr>
+                                <tbody id="pesagens-tbody"></tbody>
+
+                            </table>
+                            <p><b>ID:</b> <span id="suino-id"></span></p>
+                            <p><b>Peso inicial:</b> <span id="suino-peso"></span></p>
+                            <p><b>Raça:</b> <span id="suino-raca"></span></p>
+                            <p><b>Tag:</b> <span id="suino-tag"></span></p>
+                        </div>
+                        <div class="modal-footer d-flex justify-content-evenly">
+                            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmModal">
+                                Remover
+                            </button>
+                            <button type="button" class="btn btn-info">Salvar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <h5 id="confirm-text">Confirmar remoção?</h5>
+                        </div>
+                        <div class="modal-footer d-flex justify-content-evenly">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <button type="button" id="confirmRemove" class="btn btn-success" onclick="deletar_suino()">Confirmar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
     
 </body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>

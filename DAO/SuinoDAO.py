@@ -2,7 +2,7 @@ from sqlalchemy.exc import IntegrityError
 from BD.conexao import Base, SessionLocal
 from models.modelSuino import Suino
 from models.modelTag import Tag
-
+import pandas as pd
 
 def criar_suino(raca,peso_inicial,tag):
     db = SessionLocal()
@@ -67,6 +67,8 @@ def tags_livres():
         suino = db.query(Suino).filter(Suino.tag_suino == tag.codigo).first()
         if suino == None:
             tag_livre.append(tag)
-    
+
     return tag_livre
+
+
     

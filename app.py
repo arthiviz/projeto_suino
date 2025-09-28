@@ -2,6 +2,7 @@ from flask import *
 from DAO.UserDAO import *
 from DAO.SuinoDAO import *
 from DAO.TagDAO import *
+from DAO.PesagemDAO import *
 
 app = Flask(__name__)
 app.secret_key = 'abcd1234'
@@ -29,7 +30,7 @@ def home():
 
     
     lista_suinos = listar_suinos()
-    return render_template('index.html', lista_suinos = lista_suinos)
+    return render_template('index.html', lista_suinos = lista_suinos, active_page = 'home')
 
 @app.route('/registro_pessoa', methods = ['GET','POST'])
 def registrar_pessoa():
@@ -52,7 +53,7 @@ def registrar_pessoa():
             resultado = False
             
 
-    return render_template('registro_pessoa.html', resultado = resultado)
+    return render_template('registro_pessoa.html', resultado = resultado, active_page = 'reg_pessoa')
 
 @app.route('/registro_suino', methods = ['GET','POST'])
 def registrar_suino():
@@ -74,11 +75,7 @@ def registrar_suino():
     tags_livre = tags_livres()
     print(f'tags livres{tags_livre}')
 
-    return render_template('registro_suino.html', tags_livres = tags_livre, resultado = resultado)
-
-@app.route('/remover_suino')
-def remover_suino():
-    return render_template('remover_suino.html')
+    return render_template('registro_suino.html', tags_livres = tags_livre, resultado = resultado, active_page= 'reg_suino')
 
 @app.route('/relatorios')
 def relatorios():
@@ -89,11 +86,86 @@ def logout():
     session.pop('user',None)
     return redirect('/login')
 
+@app.route('/registro_pesagem', methods = ['GET', 'POST'])
+def registro_pesagem():
+    resultado = None
+
+    if request.method == 'POST':
+
+        id = request.form.get('id')
+        tag = request.form.get('tag')
+        peso = request.form.get('peso')
+
+        adicionar = criar_pesagem(id,tag,peso)
+        print(f'valor de adicionar:{adicionar}')
+        if adicionar:
+            resultado = True
+        else:
+            resultado = False
+
+    return render_template('registro_pesagem.html', resultado = resultado, active_page= 'reg_pesagem')
+
+@app.route('/registro_tag', methods = ['GET','POST'])
+def registro_tag():
+    resultado = None
+
+    if request.method == 'POST':
+
+        codigo = request.form.get('codigo')
+
+        adicionar = criar_tag(codigo)
+
+        if adicionar:
+            resultado = True
+        else:
+            resultado = False
+    
+    return render_template('registro_tag.html', resultado = resultado, active_page= 'reg_tag')
+
+@app.route('/api/buscar_pesagem/<int:suino_id>', methods = ['POST','GET'])
+def buscar_pesagens(suino_id):
+
+    pesagens = pesagens_suino(suino_id)
+    graph_html = criar_grafico(suino_id)
+
+    data = {
+        "pesagens":pesagens,
+        "grafico":graph_html
+    }
+    print(pesagens)
+    return jsonify(data)
+
+@app.route('/deletar_suino/<int:suino_id>', methods = ['GET','POST'])
+def deletar_suino(suino_id):
+    
+    remover_suino(suino_id)
+
+    return redirect(url_for('home'))
+
+@app.route('/listar_pesagens')
+def listar_pesagens():
+
+    pesagens = listar_pesagem()
+
+    return render_template('listar_pesagens.html', pesagens = pesagens)
+
+@app.route('/listar_tags')
+def lista_tags():
+
+    tags = listar_tags()
+
+    return render_template('listar_tags.html', tags = tags)
+
+
 
 @app.before_request
 def verificar_login():
+
+    if request.path.startswith('/static/'):
+        return
+    
     if request.endpoint != 'login' and 'user' not in session:
         return redirect('/login')
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', debug = True, port=5000)
+    app.run(host='0.0.0.0', debug = True, port=5050)

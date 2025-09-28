@@ -8,15 +8,25 @@
 <body>
     <nav class="d-flex navbar navbar-expand-lg ">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#"><img src="../static/images/Logo_PigPesoWhite.png" alt="Logo_PigPeso" style="width: 100px; height: 100px;"></a>
+    <a class="navbar-brand" href="#"><img src="../static/images/Logo_PigPesoWhite.png?v=1" alt="logo_PigPeso" alt="Logo_PigPeso" style="width: 100px; height: 100px;"></a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
       <div class="navbar-nav ">
-          <a class="nav-link active" aria-current="page" href="/">Home</a>
-          <a class="nav-link" href="/registro_suino">Registrar Suíno</a>
-          <a class="nav-link" href="/registro_pessoa">Registrar Funcionário</a>
+          <a class="nav-link {{ 'active' if active_page == 'home' else '' }}" aria-current="page" href="/">Home</a>
+          <a class="nav-link {{ 'active' if active_page == 'reg_suino' else '' }}" href="/registro_suino">Registrar Suíno</a>
+          <a class="nav-link {{ 'active' if active_page == 'reg_pessoa' else '' }}" href="/registro_pessoa">Registrar Funcionário</a>
+          <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle {{ 'active' if active_page == 'reg_pesagem' else '' }}" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Pesagem
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="/registro_pesagem">Cadastrar Pesagem</a></li>
+            <li><a class="dropdown-item" href="/listar_pesagens">Listar Pesagens</a></li>
+          </ul>
+        </li>
+          <a class="nav-link" href="/registro_tag">Cadastrar Tag</a> 
           <a class="nav-link" href="/relatorios">Relatórios</a>
           <div class=><a href="/logout" class="btn btn-outline-danger">Sair</a></div>
           
