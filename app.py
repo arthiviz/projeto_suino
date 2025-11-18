@@ -105,6 +105,47 @@ def registro_pesagem():
 
     return render_template('registro_pesagem.html', resultado = resultado, active_page= 'reg_pesagem')
 
+@app.route('/registro_pesagemIOT', methods = ['POST','GET'])
+def registrar_pesagemIOT():
+
+    json = request.get_json()
+    if json:
+        tag = json.get('tag')
+        peso_suino = json.get('peso')
+        print(f'\n Peso do suino:{peso_suino}')
+        peso_suino = float(peso_suino)
+        
+        print(f'tag do suino:{tag}')
+
+        if peso_suino is None:
+            return 'Peso do suino não enviado!',400 
+        
+
+        suino = verificar_suino(tag)
+        print(f'resultado:{suino}')
+
+        if suino:
+
+           res = criar_pesagem(suino.id,suino.tag_suino,peso_suino)
+
+           print(f'resultado{res}')
+
+           if res:
+               print('pesagem cadastrada')
+               return 'pesagem cadastrada',200
+           else:
+               print('erro ao registrar pesagem')
+               return 'erro ao registrar pesagem',400
+
+        else:
+            print('suino não encontrado')
+            return 'suino não encontrado', 400
+
+   
+        
+        
+
+
 @app.route('/registro_tag', methods = ['GET','POST'])
 def registro_tag():
     resultado = None
@@ -160,11 +201,12 @@ def lista_tags():
 
 @app.before_request
 def verificar_login():
-
     if request.path.startswith('/static/'):
         return
-    
-    if request.endpoint != 'login' and 'user' not in session:
+
+    rotas_livres = ['login', 'registrar_pesagemIOT']
+
+    if request.endpoint not in rotas_livres and 'user' not in session:
         return redirect('/login')
 
 if __name__ == '__main__':

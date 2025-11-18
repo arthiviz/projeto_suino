@@ -67,8 +67,16 @@ def tags_livres():
         suino = db.query(Suino).filter(Suino.tag_suino == tag.codigo).first()
         if suino == None:
             tag_livre.append(tag)
-
+    db.close()
     return tag_livre
+
+def verificar_suino(tag):
+
+    db = SessionLocal()
+
+    suino = db.query(Suino).filter(Suino.tag_suino == tag).first()
+    db.close()
+    return suino
 
 
     

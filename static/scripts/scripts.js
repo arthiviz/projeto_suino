@@ -9,7 +9,7 @@ suinoModal.addEventListener('show.bs.modal', async function (event) {
   // pega a linha <tr> que abriu o modal
   var row = event.relatedTarget;
 
-  // --- PARTE EXISTENTE: pega atributos data-* da tr ---
+  //  pega atributos data-* da tr ---
   var id = row.getAttribute('data-id');
   var peso = row.getAttribute('data-peso_inicial');
   var raca = row.getAttribute('data-raca');
@@ -23,7 +23,7 @@ suinoModal.addEventListener('show.bs.modal', async function (event) {
   document.getElementById('suino-raca').textContent = raca;
   document.getElementById('suino-tag').textContent = tag;
 
-  // --- PARTE NOVA: buscar pesagens do backend ---
+  // buscar pesagens do backend ---
   var tbody = document.getElementById('pesagens-tbody'); // tabela dentro do modal
   tbody.innerHTML = '<tr><td colspan="3">Carregando...</td></tr>'; // feedback de loading
 
@@ -58,10 +58,10 @@ suinoModal.addEventListener('show.bs.modal', async function (event) {
           const newScript = document.createElement("script");
           
           if (oldScript.src) {
-            // se for <script src="...">
+            
             newScript.src = oldScript.src;
           } else {
-            // se for inline <script>...</script>
+            
             newScript.textContent = oldScript.textContent;
           }
           
