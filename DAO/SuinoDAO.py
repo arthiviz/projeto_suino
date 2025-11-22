@@ -3,6 +3,7 @@ from BD.conexao import Base, SessionLocal
 from models.modelSuino import Suino
 from models.modelTag import Tag
 import pandas as pd
+from sqlalchemy import or_,cast,String
 
 def criar_suino(raca,peso_inicial,tag):
     db = SessionLocal()
@@ -77,6 +78,20 @@ def verificar_suino(tag):
     suino = db.query(Suino).filter(Suino.tag_suino == tag).first()
     db.close()
     return suino
+
+def pesquisa_suino(pesquisa):
+
+    db = SessionLocal()
+
+    if pesquisa:
+        
+        suinos = db.query(Suino) .filter(or_(cast(Suino.id, String).like(f"%{pesquisa}%"),Suino.tag_suino.like(f"%{pesquisa}%"))).all()
+    else:
+        suinos = db.query(Suino).all()
+
+    db.close()
+
+    return suinos
 
 
     

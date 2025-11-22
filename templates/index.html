@@ -17,24 +17,33 @@
                 <th>Peso</th>
                 <th>Raça</th>
                 <th>Tag</th>
-                <th style="width: max-content;"><form class="d-flex justify-content-end" role="search">
-                        <input class="form-control me-2" type="search" placeholder="Pesquisar" aria-label="Search" style="width: auto;"/>
+                <th style="width: max-content;"><form action="/" method="post" class="d-flex justify-content-end" role="search">
+                        <input class="form-control me-2 w-50" type="search" placeholder="Pesquisar Por Tag/Id" aria-label="Search" name="pesquisa"/>
                         <button class="btn btn-outline-success" type="submit">Pesquisar</button>
                     </form>
                 </th>
             </tr>
 
            
-
-            {% for suino in lista_suinos%}
-                <tr data-bs-toggle="modal" data-bs-target="#suinoModal" style="cursor: pointer;" data-id="{{suino.id}}" data-peso_inicial="{{suino.peso_inicial}}" data-raca="{{suino.raca}}" data-tag_suino="{{suino.tag_suino}}">
-                    <th>{{suino.id}}</th>
-                    <th>{{suino.peso_inicial}}Kg</th>
-                    <th>{{suino.raca}}</th>
-                    <th>{{suino.tag_suino}}</th>
+            {% if lista_suinos %}
+                {% for suino in lista_suinos%}
+                    <tr data-bs-toggle="modal" data-bs-target="#suinoModal" style="cursor: pointer;" data-id="{{suino.id}}" data-peso_inicial="{{suino.peso_inicial}}" data-raca="{{suino.raca}}" data-tag_suino="{{suino.tag_suino}}">
+                        <th>{{suino.id}}</th>
+                        <th>{{suino.peso_inicial}}Kg</th>
+                        <th>{{suino.raca}}</th>
+                        <th>{{suino.tag_suino}}</th>
+                        <th></th>
+                    </tr>
+                {%endfor%}
+            {% else %}
+                <tr>
+                    <th>Nenhum Suino Encontrado!</th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
                     <th></th>
                 </tr>
-            {%endfor%}
+            {%endif%}
         </table>    
     </div>
 

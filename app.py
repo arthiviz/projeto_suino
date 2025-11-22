@@ -25,12 +25,21 @@ def login():
 
     return render_template('login.html')
 
-@app.route('/')
+@app.route('/', methods = ['POST','GET'])
 def home():
+    print(request.method)
+    if request.method == 'POST':
 
-    
-    lista_suinos = listar_suinos()
-    return render_template('index.html', lista_suinos = lista_suinos, active_page = 'home')
+        pesquisa = request.form.get('pesquisa')
+
+        suinos_pesquisa = pesquisa_suino(pesquisa)
+
+        
+
+        return render_template('index.html', lista_suinos = suinos_pesquisa, active_page = 'home')
+    else:
+        lista_suinos = listar_suinos()
+        return render_template('index.html', lista_suinos = lista_suinos, active_page = 'home')
 
 @app.route('/registro_pessoa', methods = ['GET','POST'])
 def registrar_pessoa():
@@ -42,6 +51,8 @@ def registrar_pessoa():
         senha = request.form.get('senha')
         conf_senha = request.form.get('conf_senha')
 
+        print(f"senha:{senha} conf_senha:{conf_senha}")
+
         if senha == conf_senha:
             adicionar = criar_user(nome,email,telefone,senha,)
 
@@ -52,8 +63,39 @@ def registrar_pessoa():
         else:
             resultado = False
             
-
+    print(f'resultado:{resultado}')
     return render_template('registro_pessoa.html', resultado = resultado, active_page = 'reg_pessoa')
+
+@app.route('/remover_pessoa', methods=['POST','GET'])
+def remover_pessoa():
+    resultado = None
+    if request.method == 'POST':
+        
+
+        email = request.form.get('remover-email')
+        senha = request.form.get('remover-senha')
+
+        resultado = remover_user(email,senha)
+
+    return render_template('remover_pessoa.html',resultado = resultado, active_page = 'reg_pessoa')
+
+
+@app.route('/listar_pessoa',methods = ['GET','POST'])
+def lista_pessoa():
+
+    if request.method == 'POST':
+        
+        pesquisa = request.form.get('pesquisa_pessoa')
+
+        users_pesquisa = pesquisar_user(pesquisa)
+
+        return render_template('listar_pessoas.html',users = users_pesquisa, active_page = 'reg_pessoa')
+
+    else:
+
+        users = listar_pessoas()
+
+    return render_template('listar_pessoas.html',users = users, active_page = 'reg_pessoa')
 
 @app.route('/registro_suino', methods = ['GET','POST'])
 def registrar_suino():
@@ -188,7 +230,7 @@ def listar_pesagens():
 
     pesagens = listar_pesagem()
 
-    return render_template('listar_pesagens.html', pesagens = pesagens)
+    return render_template('listar_pesagens.html', pesagens = pesagens, active_page = 'reg_pesagem')
 
 @app.route('/listar_tags')
 def lista_tags():

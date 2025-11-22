@@ -16,7 +16,16 @@
       <div class="navbar-nav ">
           <a class="nav-link {{ 'active' if active_page == 'home' else '' }}" aria-current="page" href="/">Home</a>
           <a class="nav-link {{ 'active' if active_page == 'reg_suino' else '' }}" href="/registro_suino">Registrar Suíno</a>
-          <a class="nav-link {{ 'active' if active_page == 'reg_pessoa' else '' }}" href="/registro_pessoa">Registrar Funcionário</a>
+          <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle {{ 'active' if active_page == 'reg_pessoa' else '' }}" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Funcionários
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="/registro_pessoa">Cadastrar Funcionário</a></li>
+            <li><a class="dropdown-item" href="/listar_pessoa">Lista De Funcionários</a></li>
+            <li><a class="dropdown-item" href="/remover_pessoa">Remover Funcionário</a></li>
+          </ul>
+        </li>
           <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle {{ 'active' if active_page == 'reg_pesagem' else '' }}" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             Pesagem
@@ -27,8 +36,8 @@
           </ul>
         </li>
           <a class="nav-link" href="/registro_tag">Cadastrar Tag</a> 
-          <a class="nav-link" href="/relatorios">Relatórios</a>
-          <div class=><a href="/logout" class="btn btn-outline-danger">Sair</a></div>
+          <a class="nav-link" href="#">Relatórios</a>
+          <div class="d-flex justify-content-center"><a href="/logout" class="btn btn-outline-danger ">Sair</a></div>
           
       </div>
     </div>
